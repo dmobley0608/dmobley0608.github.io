@@ -24,4 +24,50 @@ document.addEventListener('DOMContentLoaded', () => {
     for (let i = 0; i < cloudCount; i++) {
         setTimeout(createCloud, Math.random() * 5000); // Add random delay before creating initial clouds
     }
+
+    updateProjectTimestamps();
 });
+
+// GitHub API integration
+async function fetchRepoLastUpdate(repoUrl) {
+    try {
+        // Extract owner and repo from GitHub URL
+        const urlParts = repoUrl.split('github.com/')[1].split('/');
+        const owner = urlParts[0];
+        const repo = urlParts[1].replace('.git', '');
+
+        const response = await fetch(`https://api.github.com/repos/${owner}/${repo}`);
+        const data = await response.json();
+
+        if (response.ok) {
+            const date = new Date(data.updated_at);
+            return date.toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric'
+            });
+        }
+        return null;
+    } catch (error) {
+        console.error('Error fetching repo data:', error);
+        return null;
+    }
+}
+
+// Update project cards with last update times
+async function updateProjectTimestamps() {
+    const projectCards = document.querySelectorAll('.project-card');
+
+    for (const card of projectCards) {
+        const githubLink = card.querySelector('a[href*="github.com"]');
+        if (githubLink) {
+            const lastUpdate = await fetchRepoLastUpdate(githubLink.href);
+            if (lastUpdate) {
+                const timestamp = document.createElement('div');
+                timestamp.className = 'last-updated';
+                timestamp.textContent = `Last updated: ${lastUpdate}`;
+                card.appendChild(timestamp);
+            }
+        }
+    }
+}

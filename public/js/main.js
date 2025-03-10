@@ -9,8 +9,8 @@ document.addEventListener('DOMContentLoaded', () => {
         cloud.style.height = `${Math.random() * 50 + 75}px`;
         cloud.style.top = `${Math.random() * 100 + 20}px`; // Adjusted to ensure clouds are not stuck at the top
         cloud.style.left = `${Math.random() * 100}vw`; // Randomly place clouds across the width of the header
-        cloud.style.animationDuration = `${Math.random() * 20 + 40}s`; // Slowed down the speed
-        cloud.style.zIndex = Math.random() > 0.5 ? 1 : 3; // Randomly set z-index to appear in front or behind the sun
+        cloud.style.animationDuration = `${Math.random() * 20 + 40}s`;
+        cloud.style.zIndex = Math.random() > 0.5 ? 2 : 4; // Randomly set z-index to appear in front or behind the sun
         if (cloud.style.zIndex == 3) {
             cloud.classList.add('glow'); // Apply glowing effect if in front of the sun
         }

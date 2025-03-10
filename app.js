@@ -5,7 +5,7 @@ import { dirname } from 'path';
 import net from 'net';
 
 const app = express();
-const START_PORT = process.env.PORT || 3000;
+const START_PORT = process.env.PORT || 3001;
 const MAX_PORT = START_PORT + 999;
 
 const __filename = fileURLToPath(import.meta.url);
